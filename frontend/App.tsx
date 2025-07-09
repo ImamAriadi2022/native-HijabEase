@@ -1,20 +1,112 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 
-export default function App() {
+// Import screens
+import {
+  CatalogScreen,
+  FavoriteScreen,
+  HomeScreen,
+  ProfileScreen
+} from './screens';
+
+// Import hijab detail screens
+import {
+  BergoScreen,
+  CrinkleScreen,
+  HoodieScreen,
+  KhimarScreen,
+  LayerScreen,
+  PashminaCerutyScreen,
+  PashminaKaosScreen,
+  PashminaVoalScreen,
+  PlisketScreen,
+  SatinScreen,
+  SegiEmpatScreen,
+  SportScreen,
+  SyariScreen,
+  TurbanScreen
+} from './screens/hijab';
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function MainTabs() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#FF6B6B',
+        tabBarInactiveTintColor: '#999',
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          borderTopWidth: 1,
+          borderTopColor: '#e0e0e0',
+          paddingBottom: 5,
+          paddingTop: 5,
+          height: 60,
+        },
+      }}
+    >
+      <Tab.Screen 
+        name="Home" 
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Beranda',
+          tabBarIcon: () => '🏠',
+        }}
+      />
+      <Tab.Screen 
+        name="Catalog" 
+        component={CatalogScreen}
+        options={{
+          tabBarLabel: 'Katalog',
+          tabBarIcon: () => '📚',
+        }}
+      />
+      <Tab.Screen 
+        name="Favorite" 
+        component={FavoriteScreen}
+        options={{
+          tabBarLabel: 'Favorit',
+          tabBarIcon: () => '❤️',
+        }}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: 'Profil',
+          tabBarIcon: () => '👤',
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="MainTabs" component={MainTabs} />
+        <Stack.Screen name="SegiEmpat" component={SegiEmpatScreen} />
+        <Stack.Screen name="PashminaKaos" component={PashminaKaosScreen} />
+        <Stack.Screen name="Sport" component={SportScreen} />
+        <Stack.Screen name="Bergo" component={BergoScreen} />
+        <Stack.Screen name="Syari" component={SyariScreen} />
+        <Stack.Screen name="Khimar" component={KhimarScreen} />
+        <Stack.Screen name="Turban" component={TurbanScreen} />
+        <Stack.Screen name="Hoodie" component={HoodieScreen} />
+        <Stack.Screen name="Layer" component={LayerScreen} />
+        <Stack.Screen name="PashminaVoal" component={PashminaVoalScreen} />
+        <Stack.Screen name="PashminaCeruty" component={PashminaCerutyScreen} />
+        <Stack.Screen name="Crinkle" component={CrinkleScreen} />
+        <Stack.Screen name="Satin" component={SatinScreen} />
+        <Stack.Screen name="Plisket" component={PlisketScreen} />
+      </Stack.Navigator>
+      <StatusBar style="auto" />
+    </NavigationContainer>
+  );
+}
