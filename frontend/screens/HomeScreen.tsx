@@ -28,10 +28,23 @@ const HomeScreen = ({ navigation }: any) => {
   ];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
-        <Text style={styles.welcomeText}>Selamat Datang di</Text>
-        <Text style={styles.appName}>HijabEase</Text>
+        <View style={styles.headerTop}>
+          <View>
+            <Text style={styles.welcomeText}>Selamat Datang di</Text>
+            <Text style={styles.appName}>HijabEase</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.cartIcon}
+            onPress={() => navigation.navigate('Cart')}
+          >
+            <Text style={styles.cartText}>🛒</Text>
+            <View style={styles.cartBadge}>
+              <Text style={styles.cartBadgeText}>2</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.subtitle}>Temukan gaya hijab yang sempurna untuk Anda</Text>
       </View>
 
@@ -189,6 +202,37 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     textAlign: 'center',
+  },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 10,
+  },
+  cartIcon: {
+    position: 'relative',
+    padding: 10,
+  },
+  cartText: {
+    fontSize: 24,
+    color: 'white',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: '#FF1744',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cartBadgeText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 

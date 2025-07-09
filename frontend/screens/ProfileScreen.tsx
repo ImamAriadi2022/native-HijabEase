@@ -1,14 +1,36 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const ProfileScreen = ({ navigation }: any) => {
+  const handleLogout = () => {
+    Alert.alert(
+      'Keluar dari Aplikasi',
+      'Apakah Anda yakin ingin keluar?',
+      [
+        { text: 'Batal', style: 'cancel' },
+        { 
+          text: 'Keluar', 
+          style: 'destructive',
+          onPress: () => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Login' }],
+            });
+          }
+        }
+      ]
+    );
+  };
+
   const menuItems = [
     { id: 1, icon: '👤', title: 'Edit Profil', subtitle: 'Ubah informasi pribadi' },
-    { id: 2, icon: '📚', title: 'Tutorial Tersimpan', subtitle: 'Lihat tutorial favorit' },
-    { id: 3, icon: '⚙️', title: 'Pengaturan', subtitle: 'Atur preferensi aplikasi' },
-    { id: 4, icon: '❓', title: 'Bantuan', subtitle: 'FAQ dan dukungan' },
-    { id: 5, icon: '📞', title: 'Hubungi Kami', subtitle: 'Kontak developer' },
-    { id: 6, icon: '⭐', title: 'Beri Rating', subtitle: 'Rating aplikasi di store' },
+    { id: 2, icon: '❤️', title: 'Favorit Saya', subtitle: 'Hijab yang disimpan', action: () => navigation.navigate('Favorite') },
+    { id: 3, icon: '�', title: 'Pesanan Saya', subtitle: 'Riwayat pembelian', action: () => navigation.navigate('Cart') },
+    { id: 4, icon: '�📚', title: 'Tutorial Tersimpan', subtitle: 'Lihat tutorial favorit' },
+    { id: 5, icon: '⚙️', title: 'Pengaturan', subtitle: 'Atur preferensi aplikasi' },
+    { id: 6, icon: '❓', title: 'Bantuan', subtitle: 'FAQ dan dukungan' },
+    { id: 7, icon: '📞', title: 'Hubungi Kami', subtitle: 'Kontak developer' },
+    { id: 8, icon: '⭐', title: 'Beri Rating', subtitle: 'Rating aplikasi di store' },
   ];
 
   return (
@@ -23,7 +45,11 @@ const ProfileScreen = ({ navigation }: any) => {
 
       <View style={styles.menuSection}>
         {menuItems.map((item) => (
-          <TouchableOpacity key={item.id} style={styles.menuItem}>
+          <TouchableOpacity 
+            key={item.id} 
+            style={styles.menuItem}
+            onPress={item.action || (() => {})}
+          >
             <Text style={styles.menuIcon}>{item.icon}</Text>
             <View style={styles.menuContent}>
               <Text style={styles.menuTitle}>{item.title}</Text>
@@ -44,8 +70,8 @@ const ProfileScreen = ({ navigation }: any) => {
         <Text style={styles.versionText}>Versi 1.0.0</Text>
       </View>
 
-      <TouchableOpacity style={styles.logoutButton}>
-        <Text style={styles.logoutText}>Keluar</Text>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutText}>🚪 Keluar dari Aplikasi</Text>
       </TouchableOpacity>
     </ScrollView>
   );

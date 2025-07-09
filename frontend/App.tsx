@@ -6,10 +6,14 @@ import React from 'react';
 
 // Import screens
 import {
+  CartScreen,
   CatalogScreen,
+  CheckoutScreen,
   FavoriteScreen,
   HomeScreen,
-  ProfileScreen
+  LoginScreen,
+  ProfileScreen,
+  SplashScreen
 } from './screens';
 
 // Import hijab detail screens
@@ -89,8 +93,12 @@ function MainTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Splash">
+        <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="MainTabs" component={MainTabs} />
+        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Checkout" component={CheckoutScreen} />
         <Stack.Screen name="SegiEmpat" component={SegiEmpatScreen} />
         <Stack.Screen name="PashminaKaos" component={PashminaKaosScreen} />
         <Stack.Screen name="Sport" component={SportScreen} />

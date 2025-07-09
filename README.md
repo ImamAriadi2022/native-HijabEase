@@ -4,12 +4,37 @@
 HijabEase adalah aplikasi mobile React Native yang membantu pengguna menemukan dan memahami berbagai jenis hijab. Aplikasi ini menyediakan panduan lengkap tentang 14 jenis hijab beserta karakteristik, bahan, gaya, dan tips penggunaannya.
 
 ## ✨ Fitur Utama
+
+### 🔐 Autentikasi & Keamanan
+- **Splash Screen** dengan animasi loading yang menarik
+- **Login/Register System** dengan validasi form yang lengkap
+- **Demo Login** untuk testing (email: demo@hijabease.com, password: demo123)
+- **Guest Mode** untuk akses terbatas tanpa registrasi
+- **Logout** dengan konfirmasi keamanan
+
+### 📱 Navigasi & Interface
 - **15 Halaman Lengkap** - 4 halaman utama + 14 halaman detail hijab (sesuai permintaan)
 - **Navigasi Tab** - Bottom navigation dengan 4 tab utama
-- **Informasi Lengkap** - Detail bahan, gaya, kelebihan untuk setiap jenis hijab
-- **Favorit** - Simpan hijab favorit untuk akses cepat
-- **Design Modern** - UI yang bersih dan user-friendly
+- **Stack Navigation** - Navigasi antar halaman detail yang smooth
 - **Web Support** - Dapat dijalankan di web browser
+- **Responsive Design** - UI yang adaptif untuk berbagai ukuran layar
+
+### 🛒 E-Commerce Features
+- **Shopping Cart** dengan manajemen quantity dan remove item
+- **Product Pricing** dengan diskon dan harga asli
+- **Size & Color Selection** pada detail produk
+- **Add to Cart** dengan konfirmasi dan quick actions
+- **Checkout Process** dengan multiple payment methods
+- **Payment Simulation** (Transfer Bank, E-wallet, COD)
+- **Shipping Options** (Reguler, Express, Same Day)
+- **Order Summary** dengan breakdown biaya lengkap
+
+### 📚 Konten & Informasi
+- **Katalog Visual** - Gambar real dari assets untuk setiap produk
+- **Informasi Lengkap** - Detail bahan, gaya, kelebihan untuk setiap jenis hijab
+- **Tips Perawatan** - Panduan merawat hijab agar awet
+- **Favorit System** - Simpan hijab favorit untuk akses cepat
+- **Search & Filter** - Cari produk dengan mudah
 
 ## 📋 Struktur Halaman (15 Halaman)
 
@@ -62,17 +87,57 @@ HijabEase adalah aplikasi mobile React Native yang membantu pengguna menemukan d
 }
 ```
 
-## 🚀 Cara Menjalankan
+## 🚀 Cara Menjalankan Aplikasi
 
 ### Instalasi Dependencies
 ```bash
-cd frontend
+cd c:\programming\native-HijabEase\frontend
 npm install
 ```
 
 ### Menjalankan Aplikasi
 ```bash
-# Development mode
+# Development mode (mobile)
+npm start
+
+# Untuk web browser
+npm run web
+
+# Untuk Android emulator
+npm run android
+
+# Untuk iOS simulator (Mac only)
+npm run ios
+```
+
+## 🎯 Cara Menggunakan Aplikasi
+
+### Login & Autentikasi
+1. **Splash Screen** - Aplikasi dimulai dengan splash screen loading
+2. **Login Options**:
+   - **Register**: Buat akun baru dengan nama, email, dan password
+   - **Login**: Masuk dengan email dan password
+   - **Demo**: Klik "Isi Data Demo" untuk testing cepat
+   - **Guest**: Akses terbatas tanpa registrasi
+
+### Navigasi Utama
+1. **Home** - Lihat kategori populer, tips, dan statistik
+2. **Catalog** - Jelajahi 14 kategori hijab dengan gambar dan harga
+3. **Favorite** - Akses hijab yang sudah disimpan
+4. **Profile** - Kelola akun dan pengaturan aplikasi
+
+### Shopping Experience
+1. **Browse Products** - Klik kategori di Catalog untuk melihat detail
+2. **Product Detail** - Pilih ukuran, warna, dan quantity
+3. **Add to Cart** - Tambah ke keranjang atau beli langsung
+4. **Checkout** - Isi alamat, pilih pengiriman dan pembayaran
+5. **Payment** - Simulasi pembayaran dengan konfirmasi
+
+### Tips Penggunaan
+- Gunakan icon 🛒 di header untuk akses cepat ke keranjang
+- Tekan ❤️ pada produk untuk menambah ke favorit
+- Scroll untuk melihat semua konten dengan smooth scrolling
+- Kembali ke halaman sebelumnya dengan tombol ← Back
 npm start
 
 # Untuk Android

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { HijabImages } from '../../assets';
 
 const SyariScreen = ({ navigation }: any) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -14,7 +15,11 @@ const SyariScreen = ({ navigation }: any) => {
   ];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView 
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.header}>
         <TouchableOpacity 
           style={styles.backButton}
@@ -39,10 +44,11 @@ const SyariScreen = ({ navigation }: any) => {
       </View>
 
       <View style={styles.imageSection}>
-        <View style={styles.imagePlaceholder}>
-          <Text style={styles.imagePlaceholderText}>📸</Text>
-          <Text style={styles.imagePlaceholderSubtext}>Foto Hijab Syar'i</Text>
-        </View>
+        <Image 
+          source={HijabImages.hijab.syari} 
+          style={styles.productImage}
+          resizeMode="contain"
+        />
       </View>
 
       <View style={styles.section}>
@@ -92,6 +98,41 @@ const SyariScreen = ({ navigation }: any) => {
           </Text>
         </View>
       </View>
+
+      {/* Price and Action Section */}
+      <View style={styles.priceSection}>
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceLabel}>Harga</Text>
+          <Text style={styles.priceValue}>Rp 95.000</Text>
+        </View>
+        <View style={styles.actionButtons}>
+          <TouchableOpacity 
+            style={styles.addToCartButton}
+            onPress={() => {
+              Alert.alert('Berhasil', 'Hijab Syar\'i ditambahkan ke keranjang!');
+            }}
+          >
+            <Text style={styles.addToCartButtonText}>🛒 Tambah ke Keranjang</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.buyNowButton}
+            onPress={() => {
+              navigation.navigate('Checkout');
+            }}
+          >
+            <Text style={styles.buyNowButtonText}>💳 Beli Sekarang</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Floating Action Button */}
+      <TouchableOpacity 
+        style={styles.floatingButton}
+        onPress={() => navigation.navigate('Cart')}
+      >
+        <Text style={styles.floatingButtonText}>🛒</Text>
+      </TouchableOpacity>
+
     </ScrollView>
   );
 };
@@ -100,6 +141,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fa',
+  },
+  scrollContent: {
+    paddingBottom: 100,
   },
   header: {
     flexDirection: 'row',
@@ -150,26 +194,19 @@ const styles = StyleSheet.create({
   },
   imageSection: {
     padding: 20,
-  },
-  imagePlaceholder: {
     backgroundColor: 'white',
+    margin: 15,
     borderRadius: 12,
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  imagePlaceholderText: {
-    fontSize: 48,
-    marginBottom: 10,
-  },
-  imagePlaceholderSubtext: {
-    fontSize: 14,
-    color: '#666',
+  productImage: {
+    width: '100%',
+    height: 300,
+    borderRadius: 12,
   },
   section: {
     backgroundColor: 'white',
@@ -243,6 +280,82 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     lineHeight: 18,
+  },
+  priceSection: {
+    backgroundColor: 'white',
+    marginHorizontal: 15,
+    marginBottom: 20,
+    padding: 20,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  priceLabel: {
+    fontSize: 16,
+    color: '#666',
+    fontWeight: '500',
+  },
+  priceValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FF6B6B',
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  addToCartButton: {
+    flex: 1,
+    backgroundColor: '#28a745',
+    paddingVertical: 15,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  addToCartButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buyNowButton: {
+    flex: 1,
+    backgroundColor: '#FF6B6B',
+    paddingVertical: 15,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  buyNowButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    backgroundColor: '#FF6B6B',
+    borderRadius: 30,
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  floatingButtonText: {
+    fontSize: 24,
+    color: 'white',
   },
 });
 

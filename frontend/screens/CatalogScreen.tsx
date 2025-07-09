@@ -1,63 +1,92 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { HijabCategories } from '../assets';
 
 const CatalogScreen = ({ navigation }: any) => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredData, setFilteredData] = useState(HijabCategories);
 
-  const hijabCategories = [
-    { id: 1, name: 'Hijab Segi Empat', screen: 'SegiEmpat', color: '#FFE5E5', emoji: '🔸' },
-    { id: 2, name: 'Hijab Pashmina Kaos', screen: 'PashminaKaos', color: '#E5F3FF', emoji: '🧶' },
-    { id: 3, name: 'Hijab Sport', screen: 'Sport', color: '#FFF0E5', emoji: '⚽' },
-    { id: 4, name: 'Hijab Bergo', screen: 'Bergo', color: '#F0FFE5', emoji: '🧕' },
-    { id: 5, name: 'Hijab Syar\'i', screen: 'Syari', color: '#F5E5FF', emoji: '🕌' },
-    { id: 6, name: 'Hijab Khimar', screen: 'Khimar', color: '#FFE5F0', emoji: '👑' },
-    { id: 7, name: 'Hijab Turban', screen: 'Turban', color: '#E5FFFF', emoji: '👒' },
-    { id: 8, name: 'Hijab Hoodie', screen: 'Hoodie', color: '#FFFFE5', emoji: '🧥' },
-    { id: 9, name: 'Hijab Layer', screen: 'Layer', color: '#E5FFE5', emoji: '📚' },
-    { id: 10, name: 'Pashmina Voal', screen: 'PashminaVoal', color: '#FFE5E5', emoji: '🌸' },
-    { id: 11, name: 'Pashmina Ceruty', screen: 'PashminaCeruty', color: '#E5E5FF', emoji: '✨' },
-    { id: 12, name: 'Pashmina Crinkle', screen: 'Crinkle', color: '#F0E5FF', emoji: '〰️' },
-    { id: 13, name: 'Pashmina Satin', screen: 'Satin', color: '#E5FFF0', emoji: '💎' },
-    { id: 14, name: 'Pashmina Plisket', screen: 'Plisket', color: '#FFF5E5', emoji: '📄' },
-  ];
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query.trim() === '') {
+      setFilteredData(HijabCategories);
+    } else {
+      const filtered = HijabCategories.filter(item => 
+        item.name.toLowerCase().includes(query.toLowerCase()) ||
+        item.description.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  };
+
+  const handleAddToCart = (item: any) => {
+    Alert.alert(
+      'Berhasil!',
+      `${item.name} berhasil ditambahkan ke keranjang`,
+      [
+        { text: 'Lanjut Belanja', style: 'cancel' },
+        { text: 'Lihat Keranjang', onPress: () => navigation.navigate('Cart') }
+      ]
+    );
+  };
+
+  const renderHijabItem = ({ item }: { item: any }) => (
+    <TouchableOpacity
+      style={[styles.categoryCard, { backgroundColor: item.color }]}
+      onPress={() => {
+        setSelectedCategory(item.id);
+        navigation.navigate(item.screen);
+      }}
+    >
+      <View style={styles.imageContainer}>
+        <Image source={item.image} style={styles.categoryImage} />
+        <TouchableOpacity 
+          style={styles.addToCartButton}
+          onPress={() => navigation.navigate('Cart')}
+        >
+          <Text style={styles.addToCartText}>🛒</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.categoryInfo}>
+        <Text style={styles.categoryName}>{item.name}</Text>
+        <Text style={styles.categoryDescription}>{item.description}</Text>
+        <View style={styles.priceContainer}>
+          <Text style={styles.categoryPrice}>{item.price}</Text>
+          <Text style={styles.categoryEmoji}>{item.emoji}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Katalog Hijab</Text>
-        <Text style={styles.headerSubtitle}>Pilih kategori hijab yang Anda inginkan</Text>
+        <View style={styles.headerTextContainer}>
+          <Text style={styles.headerTitle}>Katalog Hijab</Text>
+          <Text style={styles.headerSubtitle}>Koleksi hijab terlengkap untuk gaya Anda</Text>
+        </View>
+        <TouchableOpacity 
+          style={styles.cartIcon}
+          onPress={() => navigation.navigate('Cart')}
+        >
+          <Text style={styles.cartText}>🛒</Text>
+          <View style={styles.cartBadge}>
+            <Text style={styles.cartBadgeText}>2</Text>
+          </View>
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.categoriesContainer}>
-        {hijabCategories.map((category) => (
-          <TouchableOpacity
-            key={category.id}
-            style={[
-              styles.categoryItem,
-              { backgroundColor: category.color },
-              selectedCategory === category.id && styles.selectedCategory
-            ]}
-            onPress={() => {
-              setSelectedCategory(category.id);
-              navigation.navigate(category.screen);
-            }}
-          >
-            <View style={styles.categoryContent}>
-              <Text style={styles.categoryEmoji}>{category.emoji}</Text>
-              <Text style={styles.categoryName}>{category.name}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <View style={styles.infoSection}>
-        <Text style={styles.infoTitle}>Total Kategori Hijab</Text>
-        <Text style={styles.infoNumber}>14</Text>
-        <Text style={styles.infoText}>
-          Temukan berbagai jenis hijab sesuai dengan kebutuhan dan gaya Anda
-        </Text>
-      </View>
-    </ScrollView>
+      <FlatList
+        data={HijabCategories}
+        renderItem={renderHijabItem}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.categoriesContainer}
+        columnWrapperStyle={styles.row}
+      />
+    </View>
   );
 };
 
@@ -71,86 +100,118 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerTextContainer: {
+    flex: 1,
   },
   headerTitle: {
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 5,
   },
   headerSubtitle: {
     color: 'white',
     fontSize: 14,
     opacity: 0.9,
+    marginTop: 5,
+  },
+  cartIcon: {
+    position: 'relative',
+    padding: 10,
+  },
+  cartText: {
+    fontSize: 24,
+    color: 'white',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: '#FF1744',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cartBadgeText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   categoriesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     padding: 10,
+  },
+  row: {
     justifyContent: 'space-between',
   },
-  categoryItem: {
+  categoryCard: {
     width: '48%',
-    height: 120,
     marginBottom: 15,
     borderRadius: 12,
-    padding: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    overflow: 'hidden',
   },
-  selectedCategory: {
-    borderWidth: 3,
-    borderColor: '#FF6B6B',
-    transform: [{ scale: 0.95 }],
+  imageContainer: {
+    position: 'relative',
+    height: 180,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 12,
+    overflow: 'hidden',
   },
-  categoryContent: {
+  categoryImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  addToCartButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 20,
+    width: 35,
+    height: 35,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  categoryEmoji: {
-    fontSize: 28,
-    marginBottom: 8,
+  addToCartText: {
+    fontSize: 16,
+  },
+  categoryInfo: {
+    padding: 12,
   },
   categoryName: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#333',
-    textAlign: 'center',
+    marginBottom: 4,
   },
-  infoSection: {
-    backgroundColor: 'white',
-    margin: 15,
-    padding: 20,
-    borderRadius: 12,
+  categoryDescription: {
+    fontSize: 11,
+    color: '#666',
+    marginBottom: 8,
+    lineHeight: 14,
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
-  infoTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
-  },
-  infoNumber: {
-    fontSize: 48,
+  categoryPrice: {
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#FF6B6B',
-    marginBottom: 10,
   },
-  infoText: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 20,
+  categoryEmoji: {
+    fontSize: 18,
   },
 });
 
