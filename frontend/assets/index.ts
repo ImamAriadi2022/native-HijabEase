@@ -8,21 +8,21 @@ export const HijabImages = {
 
   // Gambar hijab by category
   hijab: {
-    segiEmpat: require('./Segi empat/jilbab segi empat bela square.jpeg'),
+    segiEmpat: require('./Segi empat/hijab-segi-empat.jpeg'),
     pashminaKaos: require('./Pashmina kaos/eadd2ca7-08dd-4ec1-bede-0312a4a470a1.jpeg'),
     sport: require('./Sport/fc77081c-5aa2-4714-82ad-931dd588051d.jpeg'),
-    bergo: require('./Bergo/Hijab Instan Bergo.jpeg'),
-    syari: require('./Syar_i/SQUARE HIJAB SYAR_I poly cotton_ Polycotton square hijab _ square hijab _ Hijab long square sya_i_ plain hijab _ Plain square hijab _.jpeg'),
+    bergo: require('./Bergo/hijab-bergo.jpeg'),
+    syari: require('./Syar_i/hijab-syari.jpeg'),
     turban: require('./Turban/585cae96-c781-4287-abb3-c88fd7819448.jpeg'),
-    hoodie: require('./Hoodie/Modefa Instant Criss-Cross Hoodie Jersey Hijab – Brown.jpeg'),
-    layer: require('./Layer/Babesandbasicloop instant shawl by Naelofarhijab.jpeg'),
+    hoodie: require('./Hoodie/hijab-hoodie.jpeg'),
+    layer: require('./Layer/hijab-layer.jpeg'),
     satin: require('./Satin/dfaf7af2-2dcf-4942-a3f2-9c5683f83d57.jpeg'),
-    plisket: require('./Plisket/Pashmina ceruty baby doll Hijab Pashmina Plisket Pleats Ceruti Hijab.jpeg'),
+    plisket: require('./Plisket/hijab-plisket.jpeg'),
     ceruty: require('./Ceruty/6faebe3d-6c35-4876-808b-d259a91aa827.jpeg'),
     crinkle: require('./Crinkle/f8f3e621-9039-4c17-9a0a-0145db906996.jpeg'),
     // Untuk yang tidak ada gambar, gunakan icon default
     khimar: require('./icon.png'),
-    pashminaVoal: require('./Pashmina voal/Nyari pashmina yang mudah dibentuk & bahannya halus + gak bikin gerah_ _Kheva shawl jawabannya 😍__New! Kheva Shawl - Rp 65_000_Detail cek @khevamauzakatalog __#khevashawlkhevamauza.jpeg'),
+    pashminaVoal: require('./Pashmina voal/pashmina-voal.jpeg'),
   }
 };
 

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native';
 import { HijabCategories } from '../assets';
 
 const CatalogScreen = ({ navigation }: any) => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState(HijabCategories);
+  const [cartCount, setCartCount] = useState(0);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -21,6 +22,7 @@ const CatalogScreen = ({ navigation }: any) => {
   };
 
   const handleAddToCart = (item: any) => {
+    setCartCount(cartCount + 1);
     Alert.alert(
       'Berhasil!',
       `${item.name} berhasil ditambahkan ke keranjang`,
@@ -43,7 +45,10 @@ const CatalogScreen = ({ navigation }: any) => {
         <Image source={item.image} style={styles.categoryImage} />
         <TouchableOpacity 
           style={styles.addToCartButton}
-          onPress={() => navigation.navigate('Cart')}
+          onPress={(e) => {
+            e.stopPropagation();
+            handleAddToCart(item);
+          }}
         >
           <Text style={styles.addToCartText}>🛒</Text>
         </TouchableOpacity>
@@ -72,13 +77,27 @@ const CatalogScreen = ({ navigation }: any) => {
         >
           <Text style={styles.cartText}>🛒</Text>
           <View style={styles.cartBadge}>
-            <Text style={styles.cartBadgeText}>2</Text>
+            <Text style={styles.cartBadgeText}>{cartCount}</Text>
           </View>
         </TouchableOpacity>
       </View>
 
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Cari hijab yang Anda inginkan..."
+          value={searchQuery}
+          onChangeText={handleSearch}
+          placeholderTextColor="#999"
+        />
+        <TouchableOpacity style={styles.searchButton}>
+          <Text style={styles.searchButtonText}>🔍</Text>
+        </TouchableOpacity>
+      </View>
+
       <FlatList
-        data={HijabCategories}
+        data={filteredData}
         renderItem={renderHijabItem}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
@@ -86,6 +105,19 @@ const CatalogScreen = ({ navigation }: any) => {
         contentContainerStyle={styles.categoriesContainer}
         columnWrapperStyle={styles.row}
       />
+
+      {/* Floating Action Button */}
+      {cartCount > 0 && (
+        <TouchableOpacity
+          style={styles.floatingCartButton}
+          onPress={() => navigation.navigate('Cart')}
+        >
+          <Text style={styles.floatingCartText}>🛒</Text>
+          <View style={styles.floatingCartBadge}>
+            <Text style={styles.floatingCartBadgeText}>{cartCount}</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -158,6 +190,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     overflow: 'hidden',
+    minHeight: 280,
   },
   imageContainer: {
     position: 'relative',
@@ -175,15 +208,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'rgba(255, 107, 107, 0.9)',
     borderRadius: 20,
     width: 35,
     height: 35,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
   },
   addToCartText: {
     fontSize: 16,
+    color: 'white',
   },
   categoryInfo: {
     padding: 12,
@@ -212,6 +251,76 @@ const styles = StyleSheet.create({
   },
   categoryEmoji: {
     fontSize: 18,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    backgroundColor: '#f8f9fa',
+    fontSize: 14,
+  },
+  searchButton: {
+    marginLeft: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#FF6B6B',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchButtonText: {
+    fontSize: 16,
+    color: 'white',
+  },
+  floatingCartButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    backgroundColor: '#FF6B6B',
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8,
+    zIndex: 1000,
+  },
+  floatingCartText: {
+    fontSize: 24,
+    color: 'white',
+  },
+  floatingCartBadge: {
+    position: 'absolute',
+    top: -5,
+    right: -5,
+    backgroundColor: '#FF1744',
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  floatingCartBadgeText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 
